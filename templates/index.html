@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ComicCraft - Create Your Comic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --ink:#1b1b3a; --paper:#e8f1ff; --red:#e63946; --yellow:#ffd23f; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      padding: 24px; font-family: "Nunito", "Segoe UI", Arial, sans-serif; color: var(--ink);
+      background-color: var(--paper);
+      background-image: radial-gradient(rgba(27,27,58,.14) 1.5px, transparent 1.5px);
+      background-size: 14px 14px;
+    }
+    .card {
+      width: 100%; max-width: 480px; background: #fff; padding: 28px;
+      border: 4px solid var(--ink); border-radius: 10px; box-shadow: 8px 8px 0 var(--ink);
+    }
+    h1 { font-family: "Bangers", Impact, sans-serif; font-weight: 400; font-size: 2.4rem;
+         letter-spacing: 1px; margin: 0 0 18px; text-align: center; }
+    label { display: block; font-weight: 700; margin: 14px 0 5px; }
+    input, textarea, select {
+      width: 100%; padding: 10px; font: inherit; color: var(--ink);
+      border: 2px solid var(--ink); border-radius: 6px; background: #fff;
+    }
+    textarea { min-height: 84px; resize: vertical; }
+    input:focus, textarea:focus, select:focus, button:focus-visible { outline: 3px solid var(--yellow); outline-offset: 1px; }
+    button {
+      width: 100%; margin-top: 22px; padding: 13px; cursor: pointer;
+      font-family: "Bangers", Impact, sans-serif; font-size: 1.4rem; letter-spacing: 1px;
+      color: #fff; background: var(--red); border: 3px solid var(--ink); border-radius: 8px;
+      box-shadow: 4px 4px 0 var(--ink); transition: transform .1s, box-shadow .1s;
+    }
+    button:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--ink); }
+    button:disabled { background: #888; cursor: wait; }
+    .error { background: #ffe3e5; border: 2px solid var(--red); border-radius: 6px; padding: 10px; margin-bottom: 8px; word-break: break-word; }
+    #status { display: none; margin-top: 14px; text-align: center; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Create your comic</h1>
+
+    {% if error %}
+    <div class="error"><strong>Could not create the comic.</strong><br>{{ error }}</div>
+    {% endif %}
+
+    <form id="comic-form" action="/generate" method="post">
+      <label for="prompt">Story prompt</label>
+      <textarea id="prompt" name="prompt" required>{{ form.prompt }}</textarea>
+
+      <label for="character_name">Main character name</label>
+      <input id="character_name" name="character_name" type="text" value="{{ form.character_name }}" required>
+
+      <label for="setting">Setting</label>
+      <select id="setting" name="setting">
+        {% for opt in settings %}<option value="{{ opt }}" {% if form.setting == opt %}selected{% endif %}>{{ opt|capitalize }}</option>{% endfor %}
+      </select>
+
+      <label for="tone">Story tone</label>
+      <select id="tone" name="tone">
+        {% for opt in tones %}<option value="{{ opt }}" {% if form.tone == opt %}selected{% endif %}>{{ opt|capitalize }}</option>{% endfor %}
+      </select>
+
+      <label for="style">Art style</label>
+      <select id="style" name="style">
+        {% for opt in styles %}<option value="{{ opt }}" {% if form.style == opt %}selected{% endif %}>{{ opt|capitalize }}</option>{% endfor %}
+      </select>
+
+      <button type="submit" id="submit-btn">Generate comic</button>
+      <div id="status" role="status">Drawing your comic. This can take a few minutes, please keep this tab open.</div>
+    </form>
+  </main>
+
+  <script>
+    document.getElementById("comic-form").addEventListener("submit", function () {
+      var btn = document.getElementById("submit-btn");
+      btn.disabled = true; btn.textContent = "Generating...";
+      document.getElementById("status").style.display = "block";
+    });
+  </script>
+</body>
+</html>

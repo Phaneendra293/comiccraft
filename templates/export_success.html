@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ComicCraft - Comic Exported</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --ink:#1b1b3a; --paper:#e8f1ff; --red:#e63946; --green:#1f9d55; --yellow:#ffd23f; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px;
+      font-family: "Nunito", "Segoe UI", Arial, sans-serif; color: var(--ink); background-color: var(--paper);
+      background-image: radial-gradient(rgba(27,27,58,.14) 1.5px, transparent 1.5px); background-size: 14px 14px;
+    }
+    .card { max-width: 520px; text-align: center; background: #fff; padding: 32px; border: 4px solid var(--ink); border-radius: 10px; box-shadow: 8px 8px 0 var(--ink); }
+    h1 { font-family: "Bangers", Impact, sans-serif; font-weight: 400; font-size: 2.4rem; color: var(--green); margin: 0 0 12px; }
+    .btn { display: inline-block; margin: 8px 6px 0; padding: 12px 22px; text-decoration: none; color: #fff; background: var(--red);
+           font-family: "Bangers", Impact, sans-serif; font-size: 1.3rem; letter-spacing: 1px; border: 3px solid var(--ink); border-radius: 8px; box-shadow: 4px 4px 0 var(--ink); }
+    .btn.alt { background: #fff; color: var(--ink); }
+    .btn:focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Comic exported successfully!</h1>
+    <p>Your comic is saved as a PDF. Print it, share it, or start a new story.</p>
+    {% if pdf_path %}<a class="btn alt" href="{{ pdf_path }}" download>Download again</a>{% endif %}
+    <a class="btn" href="/">Create another comic</a>
+  </main>
+</body>
+</html>

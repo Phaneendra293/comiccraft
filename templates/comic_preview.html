@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ComicCraft - Your Comic Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --ink:#1b1b3a; --paper:#e8f1ff; --red:#e63946; --yellow:#ffd23f; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 24px 16px 48px; font-family: "Nunito", "Segoe UI", Arial, sans-serif; color: var(--ink);
+      background-color: var(--paper);
+      background-image: radial-gradient(rgba(27,27,58,.14) 1.5px, transparent 1.5px);
+      background-size: 14px 14px;
+    }
+    h1 { font-family: "Bangers", Impact, sans-serif; font-weight: 400; font-size: 2.4rem; text-align: center; margin: 0 0 24px; }
+    .panel {
+      max-width: 620px; margin: 0 auto 28px; background: #fff; padding: 20px;
+      border: 4px solid var(--ink); border-radius: 10px; box-shadow: 8px 8px 0 var(--ink);
+    }
+    .panel h2 { font-family: "Bangers", Impact, sans-serif; font-weight: 400; font-size: 1.6rem; margin: 0 0 12px; }
+    .panel img { display: block; width: 100%; max-width: 512px; height: auto; margin: 0 auto 12px; border: 3px solid var(--ink); border-radius: 6px; }
+    .scene { color: #4a4a68; margin: 0 0 12px; }
+    .story { line-height: 1.55; }
+    .actions { text-align: center; margin-top: 32px; }
+    .btn {
+      display: inline-block; padding: 13px 26px; text-decoration: none; color: #fff; background: var(--red);
+      font-family: "Bangers", Impact, sans-serif; font-size: 1.4rem; letter-spacing: 1px;
+      border: 3px solid var(--ink); border-radius: 8px; box-shadow: 4px 4px 0 var(--ink);
+    }
+    .btn:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--ink); }
+    .btn:focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
+    .link { display: block; margin-top: 16px; color: var(--ink); font-weight: 700; }
+  </style>
+</head>
+<body>
+  <h1>Your comic preview</h1>
+
+  {% for panel in layout %}
+  <section class="panel">
+    <h2>Panel {{ panel.panel }}: {{ panel.title }}</h2>
+    <img src="{{ panel.image_url }}" alt="Illustration for panel {{ panel.panel }}: {{ panel.title }}">
+    <p class="scene"><em>{{ panel.scene_description }}</em></p>
+    <div class="story">{{ panel.text|format_story }}</div>
+  </section>
+  {% endfor %}
+
+  <div class="actions">
+    <a id="download" class="btn" href="{{ pdf_path }}" download>Download your comic as PDF</a>
+    <a class="link" href="/">Make another comic</a>
+  </div>
+
+  <script>
+    document.getElementById("download").addEventListener("click", function () {
+      setTimeout(function () {
+        window.location.href = "/export-success?pdf_path={{ pdf_path|urlencode }}";
+      }, 1200);
+    });
+  </script>
+</body>
+</html>

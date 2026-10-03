@@ -1,0 +1,9 @@
+env/
+comiccraft-env/
+__pycache__/
+*.pyc
+.env
+static/panels/*
+static/exports/*
+!static/panels/.gitkeep
+!static/exports/.gitkeep
